@@ -53,4 +53,4 @@ EXPOSE ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp ${SERVER_PORT}/udp ${PLAYER_PORTS
 VOLUME ["/server-data", "/server-files"]
 
 # Start from start.sh rather than entrypoint.sh
-ENTRYPOINT [ "/start" ]
+ENTRYPOINT ["/start.sh"]
