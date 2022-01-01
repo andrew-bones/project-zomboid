@@ -1,7 +1,10 @@
 FROM ghcr.io/ahava/linuxgsm:0.3.3
 
 # Steam ports
-ENV STEAM_PORT_1=8766  \
+ENV 
+    PID=1000  \
+    UID=1000  \
+    STEAM_PORT_1=8766  \
     STEAM_PORT_2=8767 \
     # RCON
     RCON_PORT=27015 \
@@ -44,9 +47,6 @@ RUN [ -d /home/linuxgsm/Zomboid ] || mkdir -p /home/linuxgsm/Zomboid && \
 # Copy scripts
 COPY ./scripts/*.sh /
 RUN chmod +x /*.sh
-
-# Switch to the user steam
-USER linuxgsm
 
 # Make server port available to host : (10 slots)
 EXPOSE ${STEAM_PORT_1}/udp ${STEAM_PORT_2}/udp ${SERVER_PORT}/udp ${PLAYER_PORTS} ${RCON_PORT}
