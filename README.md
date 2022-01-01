@@ -6,11 +6,11 @@ Docker version of the Project Zomboid steam server.
 
 This fork contains modifications to make setup easier on Synology NAS servers. There are now UID and GID environmental variables where you can input your user's UID & GID from synology environment.
 
-## How to use this image outside of Synology
+## How to use this image outside of a Synology NAS
 
 **Don't**, see https://github.com/Ahava/project-zomboid and use that instead.
 
-## How to use this image in Synology
+## How to use this image in Synology NAS
 
 Clone this into any Synology folder of choice and run `docker build -t <name> project-zomboid` as root.
 
