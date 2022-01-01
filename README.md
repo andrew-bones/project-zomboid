@@ -93,3 +93,9 @@ Some variables are inherited from [ahava/linuxgsm](https://github.com/ahava/linu
 - **16262-16XXX** Clients slots
 
 You need to bind X ports for client connection. (Example: If you have 10 slots, you need to put `-p 16262-16272:16262-16272`, if you have 100 slots, you need to put `-p 16262-16362:16262-16362`).
+
+## Credits
+
+https://hub.docker.com/r/afey/zomboid - the first inspiration to try to run such a thing on Synology
+https://github.com/Ahava/project-zomboid - the fork from Cyrale's project from which this was forked
+https://github.com/itzg/docker-minecraft-server for inspiration on the Synology specific additions
