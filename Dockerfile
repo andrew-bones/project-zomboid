@@ -1,8 +1,7 @@
 FROM ghcr.io/ahava/linuxgsm:0.3.3
 
 # Steam ports
-ENV 
-    PID=1000  \
+ENV PID=1000  \
     UID=1000  \
     STEAM_PORT_1=8766  \
     STEAM_PORT_2=8767 \
