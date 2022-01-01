@@ -1,4 +1,4 @@
-FROM ghcr.io/ahava/linuxgsm:0.3.3
+FROM github.com/andrew-bones/project-zomboid
 
 # Steam ports
 ENV PID=1000  \
