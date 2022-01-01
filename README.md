@@ -1,116 +1,50 @@
+(!) **Disclaimer**: This was a quick one time project to see if I can easily make the original (https://github.com/Ahava/project-zomboid) work smoothly on my Synology NAS. I am not sure if I will update this ever, so feel free to fork and update as you wish.
+
 # Project Zomboid server - Docker image
 
 Docker version of the Project Zomboid steam server.
 
-Contains modifications in hopes of making setup easier on Synology NAS systems - mainly due to UID & GID not being taken over from synology user.
+This fork contains modifications to make setup easier on Synology NAS servers. There are now UID and GID environmental variables where you can input your user's UID & GID from synology environment.
 
-## How to use this image
+## How to use this image outside of Synology
+
+**Don't**, see https://github.com/Ahava/project-zomboid and use that instead.
+
+## How to use this image in Synology
+
+Clone this into any Synology folder of choice and run `docker build -t <name> project-zomboid` as root.
+
+The image should automatically appear in your Docker app with the `name` you have given in the build command.
 
 ### Before starting
 
-Create two directories where you want to run your server :
+Follow https://drfrankenstein.co.uk/step-2-setting-up-a-restricted-docker-user-and-obtaining-ids/ to see how to set up a user with specific rights to a synology folder of your choice, and retrieve it's uid and gid. Note the values down for later.
 
-- `server-data`: mandatory if you want to keep configuration between each restart
-- `server-files`: optional, contains all the files of the application
+### First setup
 
-If you have any errors with the permissions of these two directories, you can adjust it. It could be done with this commands:
+After first running the image, you will be able to edit some of the settings in the dialog that shows up.
 
-```bash
-chown 1000:1000 server-data
-chown 1000:1000 server-files
-```
+#### Volume
 
-`1000:1000` represent the user and the group of the LinuxGSM\_ user that run server in the image.
+Map the folders `/server-data` and `/server-files` to your Synology folder or it's subfolders.
 
-### Bridge networking
+The result should look like this, if I assume you have a volume 'docker' set up on your synology, and two subfolders for each of the container folders:
+| File/Folder        | Mount path           | Read - only  |
+| ------------- |:-------------:| -----:|
+| docker/server-data     | /server-data |  |
+| docker/server-files      | server-files      |    |
 
-#### Docker command
+#### Port Settings
 
-```bash
-docker run -d --name project-zomboid \
-              -e SERVER_NAME="pzserver" \
-              -e ADMIN_PASSWORD="pzserver-password" \
-              -v $(pwd)/server-data:/server-data \
-              -p 8766:8766/udp \
-              -p 8767:8767/udp \
-              -p 16261:16261/udp \
-              -p 16262-16272:16262-16272 \
-              -p 27015:27015 \
-              ghcr.io/ahava/project-zomboid
-```
+**Do not leave "local port" column on "Automatic" on any of the ports!**
 
-#### Docker Compose
+You have to assign specific local port numbers, otherwise the ports can change every server restart in Synology. You can simply copy over the container port to the local port column, if you are sure the port number is not taken by something else already (usually isn't).
 
-Alternatively, you could use Docker Compose with this `docker-compose.yml` file:
+#### Environment
 
-```yaml
-version: "3.7"
+Here you can modify the environment variables. For Synology the most important ones are the **UID** and **GID** variables. Assign them the values of your Synology user.
 
-services:
-  project-zomboid:
-    image: ghcr.io/ahava/project-zomboid
-    restart: unless-stopped
-    environment:
-      SERVER_NAME: "pzserver"
-      ADMIN_PASSWORD: "pzserver-password"
-    ports:
-      - "8766:8766/udp"
-      - "8767:8767/udp"
-      - "16261:16261/udp"
-      - "16262-16272:16262-16272"
-      - "27015:27015"
-    volumes:
-      - ./server-data:/server-data
-```
-
-After creating this file, launch the server with `docker-compose up`.
-
-### Host networking
-
-#### Docker command
-
-```bash
-docker run -d --name project-zomboid \
-              --network=host \
-              -e SERVER_NAME="pzserver" \
-              -e ADMIN_PASSWORD="pzserver-password" \
-              -v $(pwd)/server-data:/server-data \
-              ghcr.io/ahava/project-zomboid
-```
-
-#### Docker Compose
-
-Alternatively, you could use Docker Compose with this `docker-compose.yml` file:
-
-```yaml
-version: "3.7"
-
-services:
-  project-zomboid:
-    image: ghcr.io/ahava/project-zomboid
-    restart: unless-stopped
-    environment:
-      SERVER_NAME: "pzserver"
-      ADMIN_PASSWORD: "pzserver-password"
-    network_mode: host
-    volumes:
-      - ./server-data:/server-data
-```
-
-After creating this file, launch the server with `docker-compose up`.
-
-#### Specifying IP address
-
-In this network mode, you could specify the IP address of the host instead of letting the program do it automatically.
-
-In the command line, add the parameter `-e LGSM_SERVER_CONFIG='ip="xx.xx.xx.xx"'`.
-
-In the docker compose file, add this environment variable:
-
-```yaml
-LGSM_SERVER_CONFIG: |
-  ip="xx.xx.xx.xx"
-```
+The rest of the variables is up to you, see the Variables section if needed.
 
 ### After starting
 
@@ -121,6 +55,9 @@ Some of options are not used in these two examples. Look below if you want to ad
 ## Variables
 
 Some variables are inherited from [ahava/linuxgsm](https://github.com/ahava/linuxgsm#variables).
+
+- **UID** uid of Synology user (default: 1000)
+- **GID** gid of Synology user (default: 1000)
 
 - **STEAM_PORT_1** Steam port 1 (default: 8766)
 - **STEAM_PORT_2** Steam port 2 (default: 8767)
