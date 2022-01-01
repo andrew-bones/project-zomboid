@@ -2,6 +2,8 @@
 
 Docker version of the Project Zomboid steam server.
 
+Contains modifications in hopes of making setup easier on Synology NAS systems - mainly due to UID & GID not being taken over from synology user.
+
 ## How to use this image
 
 ### Before starting
