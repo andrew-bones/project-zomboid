@@ -1,8 +1,7 @@
 FROM github.com/andrew-bones/project-zomboid
 
 # Steam ports
-ENV PID=1000  \
-    UID=1000  \
+ENV UID=1000 GID=1000  \
     STEAM_PORT_1=8766  \
     STEAM_PORT_2=8767 \
     # RCON
