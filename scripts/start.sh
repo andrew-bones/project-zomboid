@@ -21,10 +21,12 @@ if [[ -v GID ]]; then
   fi
 fi
 
-if [[ $(stat -c "%u" /data) != $UID ]]; then
+if [[ $(stat -c "%u" /server-data) != $UID ]]; then
   log "Changing ownership of /server-data to $UID ..."
   chown -R ${runAsUser}:${runAsGroup} /server-data
+fi
 
+if [[ $(stat -c "%u" /server-files) != $UID ]]; then
   log "Changing ownership of /server-files to $UID ..."
   chown -R ${runAsUser}:${runAsGroup} /server-files
 fi
