@@ -27,7 +27,8 @@ USER root
 # Install dependencies
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-        rng-tools && \
+        rng-tools \
+        gosu  && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* && \
