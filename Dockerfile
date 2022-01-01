@@ -1,4 +1,4 @@
-FROM ghcr.io/ahava/project-zomboid
+FROM ghcr.io/ahava/linuxgsm:0.3.3
 
 # Steam ports
 ENV UID=1000 GID=1000  \
