@@ -1,4 +1,4 @@
-FROM github.com/andrew-bones/project-zomboid
+FROM ghcr.io/ahava/project-zomboid
 
 # Steam ports
 ENV UID=1000 GID=1000  \
